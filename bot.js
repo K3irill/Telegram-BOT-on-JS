@@ -53,7 +53,6 @@ bot.command('delete', (ctx) => {
   const goalIndex = Number(ctx.message.text.split(' ')[1]);
   const [deletedGoal] = goalslist.splice(goalIndex - 1, 1);
   ctx.reply(`Цель ${deletedGoal.title} успешно удалена!`);
-  ctx.reply(`Цель ${deletedGoal.title} успешно удалена!`);
   recordFsFile();
 });
 

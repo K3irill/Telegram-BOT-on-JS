@@ -1,7 +1,7 @@
 const { Telegraf } = require('telegraf');
 const { message } = require('telegraf/filters');
 const fs = require('fs');
-require('dotenv').config()
+require('dotenv').config();
 
 const recordFsFile = () => {
   fs.writeFileSync('goalslist.json', JSON.stringify(goalslist, null, 2), 'utf8');
@@ -26,7 +26,7 @@ bot.command('goalslist', (ctx) => {
   const goals = goalslist.map((goal, index) => {
     const achieved = goal.achievedBy
       ? `(Достигнуто ${goal.achievedBy})`
-      : ` (Ещё никем не достигнуто)`;
+      : ` (Ещё не достигнуто)`;
     const row = `${index + 1}. ${goal.title} ${achieved}`;
     return row;
   });
@@ -71,9 +71,20 @@ bot.command('achieve', (ctx) => {
   );
 });
 
+bot.command('cancel', (ctx) => {
+  if (ADMIN_ID !== ctx.from.id) {
+    ctx.reply('Уппссс у вас нет прав на эту команду');
+    return;
+  }
+  const goalIndex = Number(ctx.message.text.split(' ')[1]);
+  goalslist[goalIndex - 1].achievedBy = null;
+  recordFsFile();
+  ctx.reply(`Ты сбросил прогресс по цели: ${goalslist[goalIndex - 1].title}  `);
+});
+
 bot.help((ctx) =>
   ctx.reply(
-    'Вот основные комманды:\n/goalslist - Список целей.\n/add "название цели" - Добавить цель.\n/delete "номер цели" - Удалить цель\n/achieve "номер цели" - Отметить что цель достигнута.',
+    'Вот основные комманды:\n/goalslist - Список целей.\n/add "название цели" - Добавить цель.\n/delete "номер цели" - Удалить цель\n/achieve "номер цели" - Отметить что цель достигнута.\n/cancel - Сбросить прогресс по цели.',
   ),
 );
 // bot.on(message('sticker'), (ctx) => ctx.reply('👍'));

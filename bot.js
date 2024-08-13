@@ -88,8 +88,8 @@ bot.help((ctx) =>
     'Вот основные комманды:\n/goalslist - Список целей.\n/add "название цели" - Добавить цель.\n/delete "номер цели" - Удалить цель\n/achieve "номер цели" - Отметить что цель достигнута.\n/cancel - Сбросить прогресс по цели.',
   ),
 );
-bot.on(message('sticker'), (ctx) => {
-  function getRandomXInt(max = 5) {
+bot.on(message(), (ctx) => {
+  function getRandomXInt(max = 6) {
     return Math.floor(Math.random() * max);
   }
   function randomfunc(x) {

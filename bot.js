@@ -9,6 +9,7 @@ const recordFsFile = () => {
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const ADMIN_ID = process.env.ADMIN_ID;
+
 const bot = new Telegraf(BOT_TOKEN);
 
 const goalslist = JSON.parse(fs.readFileSync('goalslist.json', 'utf8'));
@@ -87,7 +88,30 @@ bot.help((ctx) =>
     'Вот основные комманды:\n/goalslist - Список целей.\n/add "название цели" - Добавить цель.\n/delete "номер цели" - Удалить цель\n/achieve "номер цели" - Отметить что цель достигнута.\n/cancel - Сбросить прогресс по цели.',
   ),
 );
-// bot.on(message('sticker'), (ctx) => ctx.reply('👍'));
+bot.on(message('sticker'), (ctx) => {
+  function getRandomXInt(max = 5) {
+    return Math.floor(Math.random() * max);
+  }
+  function randomfunc(x) {
+    if (x === 0) {
+      return [ctx.reply('👍')];
+    } else if (x === 1) {
+      return [ctx.reply('😜')];
+    } else if (x === 2) {
+      return [ctx.reply('😎')];
+    } else if (x === 3) {
+      return [ctx.reply('🤣')];
+    } else if (x === 4) {
+      return [ctx.reply('🤔')];
+    } else if (x === 5) {
+      return [ctx.reply('🤢')];
+    }
+  };
+
+  randomfunc(getRandomXInt())
+});
+
+
 // bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 
 bot.launch();
